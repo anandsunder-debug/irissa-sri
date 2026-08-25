@@ -1,48 +1,23 @@
-# IRISSA SRI
+# Spectral Resilience Index
 
-A research/reference Python library for a telemetry- and topology-based
-Spectral Resilience Index (SRI) for distributed software systems.
+A generic Python library for topology-aware spectral resilience analysis of coupled systems.
 
-## What it does
+The library provides a transparent research implementation of a bounded Spectral Resilience Index (SRI), combining system topology, operational stress, spectral radius, spectral entropy, spectral drift, and matrix conditioning.
 
-The initial implementation provides:
+## Install
 
-- weighted service dependency graphs
-- normalized telemetry stress
-- a transparent reference system/Jacobian matrix
-- eigenvalue and spectral-radius analysis
-- spectral entropy
-- spectral drift between runtime states
-- a bounded SRI score in `[0, 1]`
-- warnings for threshold crossing, drift, stress, and conditioning
-
-## Important research status
-
-This package is **not a production reliability standard** and the SRI formula is
-a research scaffold. Before using it for automated rollback, capacity changes,
-or incident prevention, calibrate its coefficients and thresholds against
-historical production incidents and controlled experiments.
-
-The key next step is replacing the reference matrix in `build_system_matrix()`
-with an empirically estimated telemetry Jacobian:
-
-    J_ij = d x_i(t+dt) / d x_j(t)
-
-Then validate whether changes in spectral properties lead conventional incident
-signals.
+```bash
+pip install spectral-resilience-index
+```
 
 ## Quick start
 
 ```python
-from irissa_sri import graph_from_edges, telemetry_features, compute_sri
+from spectral_resilience import graph_from_edges, telemetry_features, compute_sri
 
-nodes = ["frontend", "api", "db"]
-edges = [
-    ("frontend", "api", 1.0),
-    ("api", "db", 0.8),
-]
-
-A, index = graph_from_edges(nodes, edges)
+nodes = ["frontend", "api", "database"]
+edges = [("frontend", "api", 1.0), ("api", "database", 0.8)]
+A, _ = graph_from_edges(nodes, edges)
 
 _, stress = telemetry_features(
     latency=0.35,
@@ -54,29 +29,36 @@ _, stress = telemetry_features(
 )
 
 result = compute_sri(A, stress=stress)
-
 print(result.sri)
 print(result.spectral_radius)
 print(result.warnings)
 ```
 
-## Enterprise integration roadmap
+## What it measures
 
-1. OpenTelemetry receiver/processor
-2. Prometheus exporter
-3. Kubernetes topology discovery
-4. Chaos Mesh validation harness
-5. Argo Rollouts analysis provider
-6. Historical incident calibration
-7. Production-safe recommendation mode
-8. Only then consider automated remediation
+- weighted interaction topology
+- normalized operational stress
+- reference interaction/Jacobian matrix
+- spectral radius and stability margin
+- spectral entropy
+- spectral drift between states
+- matrix conditioning
+- bounded SRI score in `[0, 1]`
 
-## Research questions
+## Research status
 
-- Does SRI predict cascading failures earlier than conventional thresholds?
-- Which spectral feature is most predictive of failure?
-- Does topology-aware SRI outperform metric-only anomaly detection?
-- How stable is SRI across workloads and architectures?
-- Can SRI reduce unnecessary capacity headroom without increasing incidents?
+This is a research/reference implementation, not a reliability standard. The default SRI coefficients and thresholds should be calibrated against historical incidents and controlled experiments before they are used for automated production decisions.
 
-**Standalone package:** this repository is independent of the existing application repository.
+The next research step is an empirically estimated telemetry Jacobian:
+
+`J_ij = d x_i(t+dt) / d x_j(t)`
+
+The package is intentionally domain-neutral and can be applied to software, infrastructure, networks, cyber-physical systems, industrial processes, or other coupled systems represented as weighted graphs.
+
+## Origin
+
+This package originated from the IRISSA Spectral Resilience Index research work. The generic API is designed to make the underlying mathematics reusable independently of any single application or organization.
+
+## License
+
+MIT

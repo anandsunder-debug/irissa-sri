@@ -3,15 +3,22 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "irissa-sri"
-version = "0.1.1"
-description = "Reference implementation of a telemetry/topology-based Spectral Resilience Index (SRI)."
+name = "spectral-resilience-index"
+version = "0.2.0"
+description = "A generic Python library for topology-aware Spectral Resilience Index analysis."
 readme = "README.md"
 requires-python = ">=3.9"
+license = {file = "LICENSE"}
+authors = [{name = "IRISSA Research"}]
+keywords = ["spectral resilience", "resilience", "stability", "graph", "telemetry", "systems"]
+classifiers = ["Development Status :: 3 - Alpha", "Intended Audience :: Developers", "Intended Audience :: Science/Research", "License :: OSI Approved :: MIT License", "Programming Language :: Python :: 3", "Programming Language :: Python :: 3 :: Only", "Programming Language :: Python :: 3.9", "Programming Language :: Python :: 3.10", "Programming Language :: Python :: 3.11", "Programming Language :: Python :: 3.12", "Topic :: Scientific/Engineering"]
 dependencies = ["numpy>=1.24", "scipy>=1.10"]
 
 [project.optional-dependencies]
-dev = ["pytest>=7", "pandas>=2.0"]
+dev = ["pytest>=7"]
+
+[tool.setuptools.packages.find]
+include = ["spectral_resilience*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

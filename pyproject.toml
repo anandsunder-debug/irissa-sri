@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "irissa-sri"
-version = "0.1.0"
+version = "0.1.1"
 description = "Reference implementation of a telemetry/topology-based Spectral Resilience Index (SRI)."
 readme = "README.md"
 requires-python = ">=3.9"

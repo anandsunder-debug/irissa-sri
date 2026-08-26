@@ -1,0 +1,13 @@
+LICENSE
+README.md
+pyproject.toml
+irissa_sri/__init__.py
+irissa_sri/core.py
+irissa_sri/features.py
+irissa_sri/topology.py
+irissa_sri.egg-info/PKG-INFO
+irissa_sri.egg-info/SOURCES.txt
+irissa_sri.egg-info/dependency_links.txt
+irissa_sri.egg-info/requires.txt
+irissa_sri.egg-info/top_level.txt
+tests/test_sri.py

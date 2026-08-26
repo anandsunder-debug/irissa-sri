@@ -3,7 +3,7 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "spectral-resilience-index"
+name = "irissa-sri"
 version = "0.2.0"
 description = "A generic Python library for topology-aware Spectral Resilience Index analysis."
 readme = "README.md"
@@ -18,7 +18,7 @@ dependencies = ["numpy>=1.24", "scipy>=1.10"]
 dev = ["pytest>=7"]
 
 [tool.setuptools.packages.find]
-include = ["spectral_resilience*"]
+include = ["irissa_sri*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

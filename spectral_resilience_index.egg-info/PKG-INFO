@@ -1,0 +1,108 @@
+Metadata-Version: 2.4
+Name: spectral-resilience-index
+Version: 0.2.0
+Summary: A generic Python library for topology-aware Spectral Resilience Index analysis.
+Author: IRISSA Research
+License: MIT License
+        
+        Copyright (c) 2026 IRISSA Research
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files, to deal in the Software
+        without restriction, including without limitation the rights to use, copy,
+        modify, merge, publish, distribute, sublicense, and/or sell copies of the
+        Software, and to permit persons to whom the Software is furnished to do so,
+        subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+        
+Keywords: spectral resilience,resilience,stability,graph,telemetry,systems
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy>=1.24
+Requires-Dist: scipy>=1.10
+Provides-Extra: dev
+Requires-Dist: pytest>=7; extra == "dev"
+Dynamic: license-file
+
+# Spectral Resilience Index
+
+A generic Python library for topology-aware spectral resilience analysis of coupled systems.
+
+The library provides a transparent research implementation of a bounded Spectral Resilience Index (SRI), combining system topology, operational stress, spectral radius, spectral entropy, spectral drift, and matrix conditioning.
+
+## Install
+
+```bash
+pip install spectral-resilience-index
+```
+
+## Quick start
+
+```python
+from spectral_resilience import graph_from_edges, telemetry_features, compute_sri
+
+nodes = ["frontend", "api", "database"]
+edges = [("frontend", "api", 1.0), ("api", "database", 0.8)]
+A, _ = graph_from_edges(nodes, edges)
+
+_, stress = telemetry_features(
+    latency=0.35,
+    error_rate=0.05,
+    retry_rate=0.10,
+    saturation=0.45,
+    queue_depth=0.20,
+    resource_pressure=0.30,
+)
+
+result = compute_sri(A, stress=stress)
+print(result.sri)
+print(result.spectral_radius)
+print(result.warnings)
+```
+
+## What it measures
+
+- weighted interaction topology
+- normalized operational stress
+- reference interaction/Jacobian matrix
+- spectral radius and stability margin
+- spectral entropy
+- spectral drift between states
+- matrix conditioning
+- bounded SRI score in `[0, 1]`
+
+## Research status
+
+This is a research/reference implementation, not a reliability standard. The default SRI coefficients and thresholds should be calibrated against historical incidents and controlled experiments before they are used for automated production decisions.
+
+The next research step is an empirically estimated telemetry Jacobian:
+
+`J_ij = d x_i(t+dt) / d x_j(t)`
+
+The package is intentionally domain-neutral and can be applied to software, infrastructure, networks, cyber-physical systems, industrial processes, or other coupled systems represented as weighted graphs.
+
+## Origin
+
+This package originated from the IRISSA Spectral Resilience Index research work. The generic API is designed to make the underlying mathematics reusable independently of any single application or organization.
+
+## License
+
+MIT

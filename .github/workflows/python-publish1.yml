@@ -30,7 +30,6 @@ jobs:
     environment: pypi
     permissions:
       contents: read
-      id-token: write
     steps:
       - name: Retrieve release distributions
         uses: actions/download-artifact@v4

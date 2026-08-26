@@ -7,7 +7,7 @@ The library provides a transparent research implementation of a bounded Spectral
 ## Install
 
 ```bash
-pip install spectral-resilience-index
+pip install irissa-sri
 ```
 
 ## Quick start
